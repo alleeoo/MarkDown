@@ -57,64 +57,68 @@ function RenderContent({ text }) {
 }
 
 function CheckLine({ line, index }) {
-  // console.log(line);
-  let words = line.split("");
-  console.log(words);
+  const words = line.split("");
+  const elements = [];
 
-  let string = [];
+  let tempText = [];
+  let i = 0;
 
-  if (words[0] === "*" && words[1] === "*") {
-    for (let i = 2; i < words.length; i++) {
-      if (words[i] === "*" && words[i + 1] === "*") {
-        const joinedString = string.join("");
-        console.log(joinedString);
-        console.log(words.slice(9));
-        return (
-          <div
-          // style={{
-          //   display: "flex",
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          //   gap: ".25rem",
-          // }}
-          >
-            <p style={{ fontWeight: "bold" }} index={index}>
-              {"  " + joinedString}
-            </p>
-            {/* {words.slice(i + 2).join("")} */}
-          </div>
+  while (i < words.length) {
+    if (words[i] === "*" && words[i + 1] === "*") {
+      i += 2;
+      const boldText = [];
+
+      while (i < words.length && !(words[i] === "*" && words[i + 1] === "*")) {
+        boldText.push(words[i]);
+        i++;
+      }
+      i += 2;
+      elements.push(<strong key={elements.length}>{boldText.join("")}</strong>);
+    } else if (words[i] === "*") {
+      i++;
+      const italianText = [];
+
+      while (i < words.length && words[i] !== "*") {
+        italianText.push(words[i]);
+        i++;
+      }
+      i++;
+      elements.push(<em key={elements.length}>{italianText.join("")}</em>);
+    } else if (words[i] === "[") {
+      i++;
+
+      const urlText = [];
+
+      while (i < words.length && words[i] !== "]") {
+        urlText.push(words[i]);
+        i++;
+      }
+      i++;
+
+      if (words[i] === "(") {
+        i++;
+        const urlLink = [];
+        while (i < words.length && words[i] !== ")") {
+          urlLink.push(words[i]);
+          i++;
+        }
+        i++;
+        urlLink.unshift("https://");
+        elements.push(
+          <a key={elements.length} href={urlLink.join("")}>
+            {urlText.join("")}
+          </a>
         );
       }
-      string.push(words[i]);
+    } else {
+      tempText.push(words[i]);
+      i++;
     }
   }
 
-  if ([words[0] === "*"]) {
-    for (let i = 1; i < words.length; i++) {
-      if (words[i] === "*") {
-        const joinedString = string.join("");
-        return <p style={{ fontStyle: "italic" }}>{joinedString}</p>;
-      }
-      string.push(words[i]);
-    }
+  if (tempText.length > 0) {
+    elements.unshift(<span key="text">{tempText.join("")}</span>);
   }
 
-  // if ([words[0] === "["]) {
-  //   let url = [];
-  //   for (let i = 1; i < words.length; i++) {
-  //     if (words[i] === "]") {
-  //       const joinedString = string.join("");
-  //       return <a href=""></a>;
-  //     }
-  //     if (word[i] === "(") {
-  //       if(url[i+1] === ")"){
-  //         cont
-  //       }
-  //       url.push(words[i + 1]);
-  //     }
-  //     string.push(words[i]);
-  //   }
-  // }
-
-  return <p index={index}>{line}</p>;
+  return <p key={index}>{elements}</p>;
 }
