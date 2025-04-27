@@ -6,18 +6,6 @@
   height: 100%;
 }
 
-#navBar {
-  top: 0;
-  background-color: silver;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  min-height: 3rem;
-  margin-bottom: 1rem;
-  padding: 5px;
-  overflow: hidden;
-}
 #body {
   display: flex;
   justify-content: center;

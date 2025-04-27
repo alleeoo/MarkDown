@@ -1,18 +1,17 @@
 import "./Editor.css";
-import { useState } from "react";
-import ConvertText from "../../logic/convertText";
-export default function Editor({ rows, cols }) {
-  const [input, setInput] = useState("");
 
+import ConvertText from "../../logic/convertText";
+export default function Editor({ input, changeInput }) {
   const handleChange = (event) => {
     let val = event.target.value;
-    setInput(val);
+    changeInput(val);
   };
   return (
     <div id="Editor">
       <div id="input">
         <label>Write your Mark Down here: </label>
         <textarea
+          value={input}
           onChange={handleChange}
           onSubmit={(event) => {
             event.preventDefault;
