@@ -15,9 +15,17 @@ function App() {
     setInput("");
   };
 
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(input);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div id="parent">
-      <NavBar handleReset={handleReset}></NavBar>
+      <NavBar handleReset={handleReset} handleCopy={handleCopy}></NavBar>
       <div id="body">
         <Editor
           input={input}

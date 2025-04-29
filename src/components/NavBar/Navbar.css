@@ -12,9 +12,12 @@
   padding: 5px;
   overflow: hidden;
 }
-#resetBtn {
+#Btn {
   width: 5rem;
-  height: 2rem;
+  height: 1.75rem;
   border-radius: 8px;
   border-width: 1px;
+}
+#resetBtn:hover {
+  background-color: slategray;
 }
